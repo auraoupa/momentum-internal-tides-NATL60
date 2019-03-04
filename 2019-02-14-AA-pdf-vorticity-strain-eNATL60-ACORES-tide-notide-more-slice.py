@@ -1,40 +1,4 @@
 
-# coding: utf-8
-
-# # PDF of surface vorticity and strain in eNATL60 simulation with tides and no tides in ACORES region 
-# 
-# __author__ : Aurélie Albert, Julien Le Sommer (MEOM), Andy Hogg (ANU)
-# 
-# __context__ : paper "On the momentum flux of internal tides" by Shakespeare & Hogg
-# 
-# __date__ : February 2019
-# 
-# __purpose__ : distribution of surface vorticity and strain values in eNATL60 simulation with tides and no tides in the ACORES region 
-# 
-# __detailed description__ : 
-# Vorticity is defined as :
-# 
-# $$curl = \partial{_x}{v} - \partial{_y}{u} $$
-# 
-# Strain is defined as :
-# 
-# $$strain = \sqrt{ (\partial{_x}{v}+\partial{_y}{u})^2 + (\partial{_x}{u}-\partial{_y}{v})^2 } $$
-# 
-# Both quantities are scale by f.
-# 
-# __practical steps__ :
-# 
-#   * Input data are hourly surface currents from eNATL60-BLB002 simulation (no-tide) and eNTAL60-BLBT02 simulation (tide) 
-#   
-#   * Surface vorticity and strain over f are computed with cdfcurl and cdfstrain cdftool : https://github.com/meom-group/CDFTOOLS) for the first two weeks of August 2009
-#   
-#   
-# __external libraries needed to run this script__ : 
-# 
-#  
-# __licence__ : This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
-
-# In[101]:
 
 
 ## path for mdules
@@ -61,20 +25,12 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 sns.set(color_codes=True)
 
-get_ipython().magic(u'matplotlib inline')
-
-
-# In[2]:
-
 
 ## Dataset
 
-dirtide="/mnt/albert/equipes/IGE/meom/MODEL_SET/eNATL60/eNATL60-BLBT02-S/1h/ACO/"
-dirnotide="/mnt/albert/equipes/IGE/meom/MODEL_SET/eNATL60/eNATL60-BLB002-S/1h/ACO/"
+dirtide="/mnt/meom/MODEL_SET/eNATL60/eNATL60-BLBT02-S/1h/ACO/"
+dirnotide="/mnt/meom/MODEL_SET/eNATL60/eNATL60-BLB002-S/1h/ACO/"
 
-
-
-# In[12]:
 
 
 filescurltide="eNATL60ACO-BLBT02_1h_*_socurloverf_*.nc"
@@ -94,7 +50,6 @@ tfilesstrainnotide=dirnotide+filesstrainnotide
 #!ls $tfilesstraintide
 
 
-# In[ ]:
 
 
 fcurltide = xr.open_mfdataset(tfilescurltide)
@@ -106,13 +61,12 @@ fcurlnotide = xr.open_mfdataset(tfilescurlnotide)
 curlnotide=fcurlnotide['socurloverf'][0]
 
 fstraintide = xr.open_mfdataset(tfilesstraintide)
-straintide=fstraintide['sostrainoverf'][k]
+straintide=fstraintide['sostrainoverf'][0:10]
 
 fstrainnotide = xr.open_mfdataset(tfilesstrainnotide)
-strainnotide=fstrainnotide['sostrainoverf'][0]
+strainnotide=fstrainnotide['sostrainoverf'][0:10]
 
 
-# In[105]:
 
 
 box=(-31,-28,33,36)
